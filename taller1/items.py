@@ -8,7 +8,8 @@
 import scrapy
 
 
-class Taller1Item(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+class Parte1Item(scrapy.Item):
+    autor=scrapy.Field()
+    cita=scrapy.Field()
+    etiqueta=scrapy.Field()
     pass
