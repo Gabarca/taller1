@@ -1,20 +1,37 @@
 from scrapy.exporters import BaseItemExporter
 
-class AutorCitaSQLExporter(BaseItemExporter):
+class AutorSQLExporter(BaseItemExporter):
     def __init__(self, file, **kwargs):
         self._configure(kwargs, dont_fail=True)
-        self.file = file
-        self.first_item = True
-    def export_item(self, item, id_autor, id_cita):
+        self.file=file
+    def export_item(self, autor, id_autor):
         ins_autor_query="insert into autor('id', 'nombre')  values({0}, '{1}')"
-        sel_autor_query="select id from autor where nombre='{0}'"
-        ins_cita_query="insert into cita(cita,id_autor) values('{0}', {1})"
-        ins_etiqueta_query="insert into etiqueta('nombre') values('{0}')"
-        sel_etiqueta_query="select id from etiqueta where nombre='{0}'"
+        self.file.write(ins_autor_query.format(id_autor, autor).encode('utf-8'))
+        self.file.write('\n'.encode('utf-8'))
+
+class CitaSQLExporter(BaseItemExporter):
+    def __init__(self, file, **kwargs):
+        self._configure(kwargs, dont_fail=True)
+        self.file=file
+    def export_item(self, cita, id_autor, id_cita):
+        ins_cita_query="insert into cita(id, cita, id_autor) values({0}, '{1}', {2})"
+        self.file.write(ins_cita_query.format(id_cita, cita.replace("'","´"), id_autor).encode('utf-8'))
+        self.file.write('\n'.encode('utf-8'))
+
+class EtiquetaSQLExporter(BaseItemExporter):
+    def __init__(self, file, **kwargs):
+        self._configure(kwargs, dont_fail=True)
+        self.file=file
+    def export_item(self, etiqueta, id_etiqueta):
+        ins_etiqueta_query="insert into etiqueta('id', 'nombre') values({0}, '{1}')"
+        self.file.write(ins_etiqueta_query.format(id_etiqueta, etiqueta).encode('utf-8'))
+        self.file.write('\n'.encode('utf-8'))
+
+class CitaEtiquetaSQLExporter(BaseItemExporter):
+    def __init__(self, file, **kwargs):
+        self._configure(kwargs, dont_fail=True)
+        self.file=file
+    def export_item(self, id_cita, id_etiqueta):
         ins_cita_etiqueta_query="insert into cita_etiqueta('id_cita', 'id_etiqueta') values({0}, {1})"
-        print(item)
-        if self.first_item:
-            self.first_item = False
-        else:
-            self.file.write(u'\n')
-        self.file.write(ins_autor_query.format(id_autor, item['autor']))
+        self.file.write(ins_cita_etiqueta_query.format(id_cita, id_etiqueta).encode('utf-8'))
+        self.file.write('\n'.encode('utf-8'))
