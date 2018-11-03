@@ -13,6 +13,6 @@ class DipsySpider(scrapy.Spider):
             yield Parte1Item(
                 autor= quote.css('small.author::text').extract_first(),
                 cita= quote.css('span.text::text').extract_first(),
-                etiqueta= quote.css('div.tags a.tag::text').extract()
+                etiquetas= quote.css('div.tags a.tag::text').extract()
             )
         

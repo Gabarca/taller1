@@ -11,5 +11,5 @@ import scrapy
 class Parte1Item(scrapy.Item):
     autor=scrapy.Field()
     cita=scrapy.Field()
-    etiqueta=scrapy.Field()
+    etiquetas=scrapy.Field()
     pass
