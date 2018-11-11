@@ -22,10 +22,10 @@ class InfSpider(scrapy.Spider):
         yield scrapy.Request('http://www.inf.ucv.cl', self.parse)
 
     def parse(self, response):
-        item=Parte2Item()
         links = scrapy.linkextractors.LinkExtractor().extract_links(response)
         for i in links:
-            yield Request(i.url, method='HEAD', dont_filter=True,callback=self.parse_2)
+            if i.url.find(self.allowed_domains[0])!=-1:
+                yield Request(i.url, method='HEAD', dont_filter=True,callback=self.parse_2)
 
     def parse_2(self,response):
         yield Parte2Item(
