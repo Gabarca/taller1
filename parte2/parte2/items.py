@@ -9,6 +9,7 @@ import scrapy
 
 
 class Parte2Item(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+    linky=scrapy.Field()
+    status=scrapy.Field()
+    otro=scrapy.Field()
     pass
