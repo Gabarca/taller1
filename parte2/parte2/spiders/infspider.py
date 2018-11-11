@@ -7,7 +7,7 @@ import pandas as pd
 import functools
 from parte2.items import Parte2Item
 from scrapy.http import Request
-
+from scrapy.http.request import Request
 
 
 
@@ -25,6 +25,25 @@ class InfSpider(scrapy.Spider):
         item=Parte2Item()
         links = scrapy.linkextractors.LinkExtractor().extract_links(response)
         for i in links:
+            yield Request(i.url, method='HEAD', dont_filter=True,callback=self.parse_2)
+
+    def parse_2(self,response):
+        yield Parte2Item(
+            linky=response.url,
+            status=response.status
+        )
+    
+    def prueba(self,response):
+        print("funciono")
+
+"""   
+    def start_requests(self):
+        yield scrapy.Request('http://www.inf.ucv.cl', self.parse)
+
+    def parse(self, response):
+        item=Parte2Item()
+        links = scrapy.linkextractors.LinkExtractor().extract_links(response)
+        for i in links:
             item["linky"]= i.url
             item["status"]= self.make_requests_from_url(i.url,item)
             print(item)
@@ -34,7 +53,7 @@ class InfSpider(scrapy.Spider):
     def make_requests_from_url(self, url,item):
         Request(url, method='HEAD', dont_filter=True,callback=self.info).meta["item"]=item
         print("peter parker")
-        return Request(url, method='HEAD', dont_filter=True, callback=self.info)
+        yield Request(url, method='HEAD', dont_filter=True,callback=self.info)
 
     
     def info(self,response):
@@ -42,3 +61,4 @@ class InfSpider(scrapy.Spider):
         item["status"]=int(response.status)
         print ("hola papi")
         return item["status"]
+"""
