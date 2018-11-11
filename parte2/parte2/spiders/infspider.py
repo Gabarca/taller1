@@ -3,7 +3,7 @@ import scrapy
 
 
 import scrapy
-import pandas as pd
+# import pandas as pd
 import functools
 from parte2.items import Parte2Item
 from scrapy.http import Request
@@ -17,7 +17,7 @@ class InfSpider(scrapy.Spider):
     name = 'InfSpider'
     allowed_domains = ['inf.ucv.cl']
     start_urls = ['http://www.inf.ucv.cl']
-
+    links_unicos = set()
     def start_requests(self):
         yield scrapy.Request('http://www.inf.ucv.cl', self.parse)
 
@@ -27,11 +27,12 @@ class InfSpider(scrapy.Spider):
             if i.url.find(self.allowed_domains[0])!=-1:
                 yield Request(i.url, method='HEAD', dont_filter=True,callback=self.parse_2)
 
-    def parse_2(self,response):
-        yield Parte2Item(
-            linky=response.url,
-            status=response.status
-        )
+    def parse_2(self, response):
+        if "text/html" in str(response.headers['Content-type']):
+            yield Parte2Item(
+                linky=response.url,
+                status=response.status
+            )
     
     def prueba(self,response):
         print("funciono")
