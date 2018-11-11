@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-from taller1.items import Parte1Item
+from parte1.items import Parte1Item
 
 #Dipsy es la araña encargada de recorrer http://quotes.toscrape.com/page/1/
 class DipsySpider(scrapy.Spider):

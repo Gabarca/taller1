@@ -1,5 +1,5 @@
 import sqlite3
-from taller1.exporters import AutorSQLExporter, CitaSQLExporter, EtiquetaSQLExporter, CitaEtiquetaSQLExporter
+from parte1.exporters import AutorSQLExporter, CitaSQLExporter, EtiquetaSQLExporter, CitaEtiquetaSQLExporter
 # -*- coding: utf-8 -*-
 # Define your item pipelines here
 #
