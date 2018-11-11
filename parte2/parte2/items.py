@@ -11,5 +11,6 @@ import scrapy
 class Parte2Item(scrapy.Item):
     linky=scrapy.Field()
     status=scrapy.Field()
-    otro=scrapy.Field()
+    content_type=scrapy.Field()
+    content_length=scrapy.Field()
     pass
